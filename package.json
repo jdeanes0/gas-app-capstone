@@ -15,7 +15,7 @@
     "better-sqlite3": "^11.9.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "inquirer": "^12.5.2",
+    "inquirer": "^8.2.6",
     "puppeteer": "^24.6.1"
   }
 }

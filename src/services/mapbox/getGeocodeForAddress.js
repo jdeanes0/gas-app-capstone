@@ -13,8 +13,8 @@ const getGeocode = async (address) => {
     );
     const coords = res.data.features[0].properties.coordinates;
     return {
-      lat: coords.latitude,
-      lng: coords.longitude,
+      latitude: coords.latitude,
+      longitude: coords.longitude,
     };
   } catch (error) {
     console.error("Error fetching geocode:", error.response?.data || error.message);
@@ -22,7 +22,9 @@ const getGeocode = async (address) => {
   }
 };
 
-(async () => {
-  const coords = await getGeocode("297 East Main Street Frostburg Maryland");
-  console.log(coords);
-})();
+// (async () => {
+//   const coords = await getGeocode("297 East Main Street Frostburg Maryland");
+//   console.log(coords);
+// })();
+
+module.exports = getGeocode;
