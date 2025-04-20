@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index"
+    "start": "node src/index",
+    "scrape": "node src/services/scrapeData"
   },
   "author": "jdeanes0@frostburg.edu",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.8.4",
     "better-sqlite3": "^11.9.1",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "inquirer": "^12.5.2",
     "puppeteer": "^24.6.1"

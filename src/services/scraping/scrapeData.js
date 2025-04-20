@@ -53,4 +53,6 @@ function runPricesScraper() {
   zips.forEach((zipcode) => getPrices(zipcode));
 }
 
+runPricesScraper();
+
 module.exports = runPricesScraper;
