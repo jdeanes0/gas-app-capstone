@@ -4,7 +4,8 @@
   "description": "An application to determine the cost-efficiency of going to a particular gas station.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index"
   },
   "author": "jdeanes0@frostburg.edu",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "axios": "^1.8.4",
     "better-sqlite3": "^11.9.1",
     "express": "^5.1.0",
-    "inquirer": "^12.5.2"
+    "inquirer": "^12.5.2",
+    "puppeteer": "^24.6.1"
   }
 }
