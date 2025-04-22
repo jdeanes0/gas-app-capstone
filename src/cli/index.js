@@ -3,6 +3,14 @@
 const inquirer = require("inquirer");
 const getGeocode = require("../services/mapbox/getGeocodeForAddress");
 
+const validateNumber = (input) => {
+  const parsed = parseFloat(input);
+  if (isNaN(parsed)) {
+    return "Please enter a number.";
+  }
+  return true;
+};
+
 async function runCLI() {
   const name = await inquirer.prompt([
     { type: "input", name: "username", message: "What is your name?" },
@@ -13,17 +21,21 @@ async function runCLI() {
     {
       type: "input",
       name: "mpg",
-      message: "What is your car's miles per gallon average?",
-      validate: (input) => {
-        const parsed = parseFloat(input);
-        if (isNaN(parsed)) {
-          return "Please enter a number.";
-        }
-        return true;
-      },
+      message: "What is your car's average miles per gallon?",
+      validate: validateNumber,
     },
   ]);
   console.log(mpg);
+
+  const tankSize = await inquirer.prompt([
+    {
+      type: "input",
+      name: "tank",
+      message: "How large is your car's gas tank??",
+      validate: validateNumber,
+    },
+  ]);
+  console.log(tankSize);
 
   const method = await inquirer.prompt([
     // Will the user want to do coordinates or an address?
@@ -51,7 +63,6 @@ async function runCLI() {
     // console.log(address);
     const apiCoords = await getGeocode(address.address);
     console.log(apiCoords);
-
   } else {
     // Get the coordinates with two prompts
     const coordinates = await inquirer.prompt([
@@ -59,30 +70,27 @@ async function runCLI() {
         type: "input",
         name: "latitude",
         message: "Latitude?",
-        validate: (input) => {
-          const parsed = parseFloat(input);
-          if (isNaN(parsed)) {
-            return "Please enter a number.";
-          }
-          return true;
-        },
+        validate: validateNumber,
       },
       {
         type: "input",
         name: "longitude",
         message: "Longitude?",
-        validate: (input) => {
-          const parsed = parseFloat(input);
-          if (isNaN(parsed)) {
-            return "Please enter a number.";
-          }
-          return true;
-        },
+        validate: validateNumber,
       },
     ]);
     console.log(coordinates);
     coordsForMapbox = coordinates;
   }
+  // We now have our coordinates. Time for a whole philosophical discussion on how to do the
+  // important bits of the program.
+
+  // A good gas station: one where the savings from cheaper gas outweigh the cost of travel.
+  // So we can find the best station by combining the cost of gas for the tank and the cost to travel to a station.
+  // At this point, the CLI is no longer needed, and can end. The rest of the program will be generating a report for each station.
+
 }
 
 runCLI();
+
+module.exports = runCLI;
