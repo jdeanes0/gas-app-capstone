@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index",
-    "scrape": "node src/services/scraping/scrapeData"
+    "scrape": "node src/services/scraping/scrapeData",
+    "geocode": "node src/services/mapbox/getGeocodeForAddress"
   },
   "author": "jdeanes0@frostburg.edu",
   "license": "ISC",

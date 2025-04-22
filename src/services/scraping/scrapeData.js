@@ -1,9 +1,10 @@
 // Scrapes data from the external data source every so often.
 // We will want to scrape 21502 & 21532 for this app's initial version.
 
-const zips = ["21502", "21532"];
+const zips = ["21502", "21524", "21532", "26753"]; // Cumberland, Corriganville, Frostburg, Ridgeley
 
 const puppeteer = require("puppeteer");
+const { logNewScrapedData } = require("./logData");
 
 const getPrices = async (zipcode) => {
   const browser = await puppeteer.launch({
@@ -17,6 +18,7 @@ const getPrices = async (zipcode) => {
     `https://www.gasbuddy.com/home?search=${zipcode}&fuel=1&method=all&maxAge=0`,
     {
       waitUntil: "networkidle2",
+      timeout: 0,
     }
   );
 
@@ -44,13 +46,18 @@ const getPrices = async (zipcode) => {
     });
   });
 
-  console.log(prices);
+  console.log(prices); // contains an object with an array per zipcode
+  // each array then has one object per station
 
   await browser.close();
+
+  return prices;
 };
 
-function runPricesScraper() {
-  zips.forEach((zipcode) => getPrices(zipcode));
+async function runPricesScraper() {
+  const prices = await Promise.all(zips.map((zipcode) => getPrices(zipcode)));
+  console.log(typeof prices);
+  logNewScrapedData(prices);
 }
 
 runPricesScraper();

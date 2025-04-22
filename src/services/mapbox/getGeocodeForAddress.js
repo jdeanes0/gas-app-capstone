@@ -5,6 +5,14 @@ require("dotenv").config();
 const env = require("../../config");
 
 const axios = require("axios");
+const {
+  getStationsWithoutCoordinates,
+  updateAddressWithCoordinates,
+} = require("../../db/queries");
+
+function replaceNewlineChar(string) {
+  return string.replaceAll("\n", " ");
+}
 
 const getGeocode = async (address) => {
   try {
@@ -17,14 +25,27 @@ const getGeocode = async (address) => {
       longitude: coords.longitude,
     };
   } catch (error) {
-    console.error("Error fetching geocode:", error.response?.data || error.message);
+    console.error(
+      "Error fetching geocode:",
+      error.response?.data || error.message
+    );
     return null;
   }
 };
 
-// (async () => {
-//   const coords = await getGeocode("297 East Main Street Frostburg Maryland");
-//   console.log(coords);
-// })();
+(async () => {
+  const stations = await getStationsWithoutCoordinates();
+  await Promise.all(
+    stations.map(async (station) => {
+      const coords = await getGeocode(replaceNewlineChar(station.address));
+      // console.log(station);
+      await updateAddressWithCoordinates(
+        station.address,
+        coords.longitude,
+        coords.latitude
+      );
+    })
+  );
+})();
 
 module.exports = getGeocode;

@@ -5,6 +5,10 @@ const Database = require("better-sqlite3");
 const dbPath = path.join(__dirname, "app.db");
 const db = new Database(dbPath);
 
+function replaceNewlineChar(string) {
+  return string.replaceAll("\n", " ");
+}
+
 /**
  *
  * @returns An array of all stations in the database
@@ -45,6 +49,14 @@ function getCoordinatesByAddress(address) {
   };
 }
 
+function updateAddressWithCoordinates(address, longitude, latitude) {
+  const stmt = db.prepare(
+    "UPDATE stations SET longitude=?, latitude=? WHERE address=?"
+  );
+  console.log(address, longitude, latitude);
+  stmt.run(longitude, latitude, replaceNewlineChar(address));
+}
+
 // getAllStations();
 // getAddressesWithoutCoordinates();
 // console.log(getCoordinatesByAddress("15808 McMullen Hwy SW, Bel Air, MD"));
@@ -53,4 +65,5 @@ module.exports = {
   getAllStations,
   getStationsWithoutCoordinates,
   getCoordinatesByAddress,
+  updateAddressWithCoordinates,
 };
