@@ -1,6 +1,6 @@
 {
   "name": "gas-app",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "An application to determine the cost-efficiency of going to a particular gas station.",
   "main": "index.js",
   "scripts": {

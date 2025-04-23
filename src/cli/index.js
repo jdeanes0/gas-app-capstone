@@ -1,7 +1,9 @@
 // This file is where the cli will be run by inquirer.js.
 
+const path = require("path");
+const geocodePath = path.join(__dirname, "../services/mapbox/getGeocodeForAddress");
 const inquirer = require("inquirer");
-const getGeocode = require("../services/mapbox/getGeocodeForAddress");
+const { getGeocode } = require(geocodePath);
 
 const validateNumber = (input) => {
   const parsed = parseFloat(input);
@@ -31,7 +33,7 @@ async function runCLI() {
     {
       type: "input",
       name: "tank",
-      message: "How large is your car's gas tank??",
+      message: "How large is your car's gas tank?",
       validate: validateNumber,
     },
   ]);
@@ -62,6 +64,7 @@ async function runCLI() {
     ]);
     // console.log(address);
     const apiCoords = await getGeocode(address.address);
+    coordsForMapbox = apiCoords;
     console.log(apiCoords);
   } else {
     // Get the coordinates with two prompts
@@ -89,8 +92,12 @@ async function runCLI() {
   // So we can find the best station by combining the cost of gas for the tank and the cost to travel to a station.
   // At this point, the CLI is no longer needed, and can end. The rest of the program will be generating a report for each station.
 
+  // We will return an object with the following:
+  // mpg, tank size, coordinates
+
+  return { mpg: mpg.mpg, tankSize: tankSize.tank, coordsForMapbox };
 }
 
-runCLI();
+// runCLI();
 
 module.exports = runCLI;

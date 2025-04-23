@@ -1,7 +1,7 @@
 // Scrapes data from the external data source every so often.
 // We will want to scrape 21502 & 21532 for this app's initial version.
 
-const zips = ["21502", "21524", "21532", "26753"]; // Cumberland, Corriganville, Frostburg, Ridgeley
+const zips = ["21502", "21524", "21532", "26753", "76541"]; // Cumberland, Corriganville, Frostburg, Ridgeley
 
 const puppeteer = require("puppeteer");
 const { logNewScrapedData } = require("./logData");
@@ -60,6 +60,6 @@ async function runPricesScraper() {
   logNewScrapedData(prices);
 }
 
-runPricesScraper();
+// runPricesScraper();
 
 module.exports = runPricesScraper;

@@ -33,12 +33,11 @@ const getGeocode = async (address) => {
   }
 };
 
-(async () => {
+async function addGeocodingToStations() {
   const stations = await getStationsWithoutCoordinates();
   await Promise.all(
     stations.map(async (station) => {
       const coords = await getGeocode(replaceNewlineChar(station.address));
-      // console.log(station);
       await updateAddressWithCoordinates(
         station.address,
         coords.longitude,
@@ -46,6 +45,8 @@ const getGeocode = async (address) => {
       );
     })
   );
-})();
+}
 
-module.exports = getGeocode;
+addGeocodingToStations();
+
+module.exports = { getGeocode, addGeocodingToStations };
