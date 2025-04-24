@@ -5,7 +5,7 @@
 function printReport(stationsAndCosts) {
   stationsAndCosts.sort((a, b) => a.totalCost - b.totalCost);
   const sorted = stationsAndCosts;
-  console.log(sorted);
+  // console.log(sorted);
   console.log("The best station for you is:");
   console.log(sorted[0].name + " at " + sorted[0].address);
   console.log("With a total cost of:");
