@@ -47,6 +47,8 @@ async function addGeocodingToStations() {
   );
 }
 
-addGeocodingToStations();
+if (require.main === module) {
+  addGeocodingToStations();
+}
 
 module.exports = { getGeocode, addGeocodingToStations };

@@ -1,24 +1,33 @@
 require("dotenv").config();
 
 const runPricesScraper = require("./services/scraping/scrapeData");
-// const mapBoxToken = require("./config");
 const runCLI = require("./cli/index");
 const calculatePrices = require("./cli/calculatePrices");
 
-// setInterval(() => {
-//   runPricesScraper();
-// }, 60 * 60 * 1000); // 1 hour
+setInterval(() => {
+  runPricesScraper();
+}, 60 * 60 * 1000); // 1 hour
 
-// console.log(mapBoxToken);
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 async function main() {
-  const userData = await runCLI();
+  while (true) {
+    const userData = await runCLI();
 
-  const travelCosts = calculatePrices(
-    userData.mpg,
-    userData.tankSize,
-    userData.coordsForMapbox
-  );
+    await calculatePrices(
+      userData.mpg,
+      userData.tankSize,
+      userData.coordsForMapbox
+    );
+
+    await sleep(3000);
+    console.log(
+      "\nThank you for using my program! Restarting in 3 seconds...\n\n\n"
+    );
+    await sleep(3000);
+  }
 }
 
 main();

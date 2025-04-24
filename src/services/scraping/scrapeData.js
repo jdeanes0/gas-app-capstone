@@ -46,7 +46,7 @@ const getPrices = async (zipcode) => {
     });
   });
 
-  console.log(prices); // contains an object with an array per zipcode
+  // console.log(prices); // contains an object with an array per zipcode
   // each array then has one object per station
 
   await browser.close();
@@ -56,10 +56,12 @@ const getPrices = async (zipcode) => {
 
 async function runPricesScraper() {
   const prices = await Promise.all(zips.map((zipcode) => getPrices(zipcode)));
-  console.log(typeof prices);
+  // console.log(typeof prices);
   logNewScrapedData(prices);
 }
 
-// runPricesScraper();
+if (require.main === module) {
+  runPricesScraper();
+}
 
 module.exports = runPricesScraper;

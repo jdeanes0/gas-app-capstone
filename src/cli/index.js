@@ -1,7 +1,10 @@
 // This file is where the cli will be run by inquirer.js.
 
 const path = require("path");
-const geocodePath = path.join(__dirname, "../services/mapbox/getGeocodeForAddress");
+const geocodePath = path.join(
+  __dirname,
+  "../services/mapbox/getGeocodeForAddress"
+);
 const inquirer = require("inquirer");
 const { getGeocode } = require(geocodePath);
 
@@ -17,7 +20,7 @@ async function runCLI() {
   const name = await inquirer.prompt([
     { type: "input", name: "username", message: "What is your name?" },
   ]);
-  console.log(name);
+  console.log("Hello " + name.username + ".");
 
   const mpg = await inquirer.prompt([
     {
@@ -27,7 +30,7 @@ async function runCLI() {
       validate: validateNumber,
     },
   ]);
-  console.log(mpg);
+  console.log("MPG: " + mpg.mpg);
 
   const tankSize = await inquirer.prompt([
     {
@@ -37,7 +40,7 @@ async function runCLI() {
       validate: validateNumber,
     },
   ]);
-  console.log(tankSize);
+  console.log("Tank Size: ", tankSize.tank);
 
   const method = await inquirer.prompt([
     // Will the user want to do coordinates or an address?
@@ -46,10 +49,10 @@ async function runCLI() {
       name: "positionType",
       message:
         "Do you have an address or coordinates of your current position?",
-      choices: ["address", "coordinates"],
+      choices: ["I'm at the CSIT showcase!", "address", "coordinates"],
     },
   ]);
-  console.log(method);
+  // console.log(method);
 
   let coordsForMapbox;
   // Permanent branch here based on address type.
@@ -65,8 +68,8 @@ async function runCLI() {
     // console.log(address);
     const apiCoords = await getGeocode(address.address);
     coordsForMapbox = apiCoords;
-    console.log(apiCoords);
-  } else {
+    // console.log(apiCoords);
+  } else if (method.positionType === "coordinates") {
     // Get the coordinates with two prompts
     const coordinates = await inquirer.prompt([
       {
@@ -82,8 +85,11 @@ async function runCLI() {
         validate: validateNumber,
       },
     ]);
-    console.log(coordinates);
+    // console.log(coordinates);
     coordsForMapbox = coordinates;
+  } else {
+    // at FSU
+    coordsForMapbox = { latitude: 39.651285, longitude: -78.932517 };
   }
   // We now have our coordinates. Time for a whole philosophical discussion on how to do the
   // important bits of the program.

@@ -53,7 +53,7 @@ function updateAddressWithCoordinates(address, longitude, latitude) {
   const stmt = db.prepare(
     "UPDATE stations SET longitude=?, latitude=? WHERE address=?"
   );
-  console.log(address, longitude, latitude);
+  // console.log(address, longitude, latitude);
   stmt.run(longitude, latitude, replaceNewlineChar(address));
 }
 

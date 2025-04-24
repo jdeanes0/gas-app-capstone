@@ -6,13 +6,10 @@ const printReport = require("./printReport");
 
 async function calculatePrices(mpg, tankSize, coordinates) {
   const stations = await getAllStations();
-  // console.log("stations:", stations);
 
   const stationsAndDistances = [];
   for (const station of stations) {
-    // console.log(station);
     const distance = await getRouteLength(coordinates, station);
-    console.log(distance);
     stationsAndDistances.push({
       ...station,
       distance,
